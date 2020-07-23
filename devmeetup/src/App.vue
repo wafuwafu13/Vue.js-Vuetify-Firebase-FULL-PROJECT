@@ -1,59 +1,40 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+    <v-toolbar dark class="purple darken-1">
+      <v-app-bar-nav-icon 
+        @click.native.stop="sideNav = !sideNav" 
+        class="hidden-sm-and-up">
+      </v-app-bar-nav-icon>
+      <v-toolbar-title>DevMeetup</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn text>
+          <v-icon left>mdi-account-supervisor</v-icon>
+          View Meetups
+        </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-navigation-drawer v-model="sideNav">
+      <v-list>
+        <v-list-item>
+          <v-list-item-action>
+            <v-icon>mdi-account-supervisor</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>View Meetups</v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <main>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+    </main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld
-  },
-
   data: () => ({
+    sideNav: false
     //
   })
 }
