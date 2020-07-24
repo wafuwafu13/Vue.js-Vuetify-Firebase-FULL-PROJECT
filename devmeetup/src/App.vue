@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar dark max-height="64" class="purple darken-1">
+    <v-toolbar dark max-height="64" class="primary">
       <v-app-bar-nav-icon 
         @click.native.stop="sideNav = !sideNav" 
         class="hidden-sm-and-up">
