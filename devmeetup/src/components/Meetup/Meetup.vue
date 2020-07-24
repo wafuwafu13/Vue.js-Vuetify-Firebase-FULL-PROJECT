@@ -4,14 +4,14 @@
       <v-col>
         <v-card>
           <v-card-title>
-            <h4 class="primary--text">My Meetup</h4>
+            <h4 class="primary--text">{{ meetup.title }}</h4>
           </v-card-title>
             <v-img
-              src='https://s3-ap-northeast-1.amazonaws.com/tabi-channel/upload_by_admin/newyork_travel_800.jpg'
+              :src="meetup.imageUrl"
               height="400px"
             ></v-img>
             <v-card-text>
-              <div class="info--text">17th July 2017 -Where it takes place</div>
+              <div class="info--text">{{ meetup.date }} -Where it takes place</div>
               <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci assumenda at deserunt dolorum eius esse eum, expedita hic illo ipsum magni, nobis, odio odit quaerat quibusdam quis rem veritatis voluptas!</div>
             </v-card-text>
             <v-card-actions>
@@ -23,3 +23,14 @@
     </v-row>
   </v-container>
 </template>
+
+<script>
+  export default {
+      props: ['id'], // paramsから受け取る
+      computed: {
+          meetup() {
+              return this.$store.getters.loadedMeetup(this.id)
+          }
+      }
+  }
+</script>

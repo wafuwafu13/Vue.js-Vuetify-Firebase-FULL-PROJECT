@@ -32,18 +32,23 @@
 
 <script>
   export default {
-    data () {
-      return {
-        meetups: [
-          { imageUrl: 'https://s3-ap-northeast-1.amazonaws.com/tabi-channel/upload_by_admin/newyork_travel_800.jpg', 
-            id: 'jfiorjafaifinrg212',
-            title: 'Meetup in New york' 
-          },
-          { imageUrl: 'https://media.gettyimages.com/photos/eiffel-tower-in-paris-france-picture-id924894324?s=612x612', 
-            id: 'jfeaiufeffag2332',
-            title: 'Meetup in Paris' 
-          },
-        ]
+    // data () {
+    //   return {
+    //     meetups: [
+    //       { imageUrl: 'https://s3-ap-northeast-1.amazonaws.com/tabi-channel/upload_by_admin/newyork_travel_800.jpg', 
+    //         id: 'jfiorjafaifinrg212',
+    //         title: 'Meetup in New york' 
+    //       },
+    //       { imageUrl: 'https://media.gettyimages.com/photos/eiffel-tower-in-paris-france-picture-id924894324?s=612x612', 
+    //         id: 'jfeaiufeffag2332',
+    //         title: 'Meetup in Paris' 
+    //       },
+    //     ]
+    //   }
+    // },
+    computed: {
+      meetups () {
+        return this.$store.getters.featuredMeetups
       }
     },
     methods: {
