@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase/app'
 require('firebase/auth')
+require('firebase/firestore');
 
 Vue.use(Vuex)
 
@@ -28,6 +29,9 @@ export const store = new Vuex.Store({
       error: null
     },
     mutations: {
+        setLoadedMeetups (state, payload) {
+          state.loadedMeetups = payload
+        },
         createMeetup (state, payload) {
             state.loadedMeetups.push(payload)
         },
@@ -45,6 +49,26 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
+      loadMeetups ({commit}) {
+        firebase.firestore().collection('meetups').get()
+          .then((querySnapshot) => {
+            const meetups = []
+            querySnapshot.forEach((doc) => {
+              meetups.push({
+                ...doc.data(),
+                id: doc.id
+              })
+            })
+            commit('setLoadedMeetups', meetups)
+            commit('setLoading', false)
+          })
+          .catch(
+            (error) => {
+              console.log(error)
+              commit('setLoading', true)
+            }
+          )
+      },
       createMeetup ({commit}, payload) {
           const meetup = {
             title: payload.title,
@@ -52,10 +76,19 @@ export const store = new Vuex.Store({
             imageUrl: payload.imageUrl,
             description: payload.description,
             date: payload.date,
-            id: 'kfdlsfjslakl12'
+            //id: 'kfdlsfjslakl12'
           }
-          // Reachout to firebase and store it
-          commit('createMeetup', meetup)
+          firebase.firestore().collection('meetups').add(meetup)
+            .then((data) => {
+              const key = data.id
+              commit('createMeetup', {
+                ...meetup,
+                id: key
+              })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
       },
       signUserUp ({commit}, payload) {
         commit('setLoading', true)
