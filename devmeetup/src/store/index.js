@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as firebase from 'firebase/app'
+require('firebase/auth')
 
 Vue.use(Vuex)
 
@@ -21,29 +23,63 @@ export const store = new Vuex.Store({
           description: 'awesome'
         },
       ],
-      user: {
-          id: 'ifjaeiro23',
-          registerdMeetups: ['jfeaiufeffag2332']
-      }
+      user: null
     },
     mutations: {
         createMeetup (state, payload) {
             state.loadedMeetups.push(payload)
+        },
+        setUser (state, payload) {
+            state.user = payload
         }
     },
     actions: {
-        createMeetup ({commit}, payload) {
-            const meetup = {
-                title: payload.title,
-                location: payload.location,
-                imageUrl: payload.imageUrl,
-                description: payload.description,
-                date: payload.date,
-                id: 'kfdlsfjslakl12'
+      createMeetup ({commit}, payload) {
+          const meetup = {
+            title: payload.title,
+            location: payload.location,
+            imageUrl: payload.imageUrl,
+            description: payload.description,
+            date: payload.date,
+            id: 'kfdlsfjslakl12'
+          }
+          // Reachout to firebase and store it
+          commit('createMeetup', meetup)
+      },
+      signUserUp ({commit}, payload) {
+        firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+          .then(
+            user => {
+              const newUser = {
+                  id: user.uid, // undefined??
+                  registerdMeetups: []
+              }
+              commit('setUser', newUser)
             }
-            // Reachout to firebase and store it
-            commit('createMeetup', meetup)
-        }
+          )
+          .catch(
+            error => {
+              console.log(error)
+            }
+          )
+      },
+      signUserIn ({commit}, payload) {
+        firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+          .then(
+            user => {
+              const newUser = {
+                id: user.uid, // undefined??
+                registerdMeetups: [] // なにかあるはず
+              }
+              commit('setUser', newUser)
+            }
+          )
+          .catch(
+            error => {
+              console.log(error)
+            }
+          )
+      }
     },
     getters: {
       loadedMeetups (state) {
@@ -61,5 +97,8 @@ export const store = new Vuex.Store({
               })
           }
       },
+      user (state) {
+        return state.user
+      }
     }
 })

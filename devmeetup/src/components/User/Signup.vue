@@ -4,7 +4,7 @@
       <v-card>
         <v-card-text>
           <v-container>
-            <form>
+            <form @submit.prevent="onSignup">
               <v-row>
                 <v-col xs12>
                   <v-text-field
@@ -31,7 +31,7 @@
                 <v-col xs12>
                   <v-text-field
                     name="confirmpassword"
-                    label="Comfirm Password"
+                    label="Confirm Password"
                     id="confirmpassword"
                     v-model="confirmPassword"
                     type="confirmpassword"
@@ -62,13 +62,22 @@
     },
     computed: {
       comparePasswords () {
-        return this.passowrd !== this.comfirmPasswords ? 'Password do not match' : ''
+        return this.password !== this.confirmPasswords ? 'Password do not match' : ''
+      },
+      user () {
+        return this.$store.getters.user
+      }
+    },
+    watch: {
+      user (value) {
+        if (value !== null && value !== undefined) {
+          this.$router.push('/')
+        }
       }
     },
     methods: {
       onSignup () {
-        // Vuex
-        console.log({email: this.email, password: this.passowrd, confirmPassword: this.confirmPassword})
+        this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
       }
     }
   }
