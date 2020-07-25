@@ -18,6 +18,13 @@
           <v-icon left>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
+        <v-btn 
+          v-if="userIsAuthenticated"
+          @click="onLogout"
+          text>
+          <v-icon left>mdi-logout</v-icon>
+          Logout
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-navigation-drawer absolute temporary v-model="sideNav">
@@ -31,6 +38,14 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>{{ item.title }}</v-list-item-content>
+        </v-list-item>
+        <v-list-item 
+          v-if="userIsAuthenticated"
+          @click="onLogout">
+          <v-list-item-action>
+            <v-icon>logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>Logout</v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -63,6 +78,11 @@ export default {
     },
     userIsAuthenticated () {
       return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
+  },
+  methods: {
+    onLogout () {
+      this.$store.dispatch('logout')
     }
   }
 }
