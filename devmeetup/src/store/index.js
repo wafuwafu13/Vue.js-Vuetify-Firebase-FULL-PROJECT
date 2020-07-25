@@ -9,14 +9,14 @@ export const store = new Vuex.Store({
         { imageUrl: 'https://s3-ap-northeast-1.amazonaws.com/tabi-channel/upload_by_admin/newyork_travel_800.jpg', 
           id: 'jfiorjafaifinrg212',
           title: 'Meetup in New york',
-          date: '2017-07-17',
+          date: new Date(),
           location: 'new york',
           description: 'awesome'
         },
         { imageUrl: 'https://media.gettyimages.com/photos/eiffel-tower-in-paris-france-picture-id924894324?s=612x612', 
           id: 'jfeaiufeffag2332',
           title: 'Meetup in Paris',
-          date: '2017-07-19',
+          date: new Date(),
           location: 'paris',
           description: 'awesome'
         },
